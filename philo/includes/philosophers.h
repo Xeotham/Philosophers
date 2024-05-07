@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:58:38 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/07 16:44:32 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/07 21:35:50 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef enum e_state
 	P_DEAD,
 }					t_state;
 
+# define JOIN "joined the table..."
 # define FORK "has taken a fork."
 # define EAT "is eating."
 # define SLEEP "is sleeping."
@@ -59,6 +60,19 @@ typedef struct s_fork
 	pthread_mutex_t	fork;
 }					t_fork;
 
+typedef struct s_param
+{
+	int				nb_args;
+	unsigned int	philo_num;
+	unsigned int	time_to_die;
+	unsigned int	time_to_eat;
+	unsigned int	time_to_sleep;
+	unsigned int	num_to_eat;
+	t_fork			*forks;
+	struct s_philo	**philos;
+	struct timeval	base_time;
+}					t_param;
+
 typedef struct s_philo
 {
 	int				philo_num;
@@ -68,21 +82,8 @@ typedef struct s_philo
 	t_state			state;
 	pthread_t		philo;
 	struct timeval	last_eat;
+	t_param			*param;
 }					t_philo;
-
-typedef struct s_param
-{
-	int				i_philo;
-	int				nb_args;
-	unsigned int	philo_num;
-	unsigned int	time_to_die;
-	unsigned int	time_to_eat;
-	unsigned int	time_to_sleep;
-	unsigned int	num_to_eat;
-	t_fork			*forks;
-	t_philo			**philos;
-	struct timeval	base_time;
-}					t_param;
 
 /* ==== UTILS ==== */
 
@@ -99,11 +100,11 @@ void				global_timer(unsigned int time);
 void				unlock_fork_mutex(t_philo *philo, t_fork *forks);
 
 /* ==== PHILOS_HANDLE ==== */
-void				philo_loop(t_param *param);
+void				philo_loop(t_philo **philos);
 t_philo				**creat_philo(t_param *param);
 t_fork				*creat_forks(t_param *param);
 void				do_eat(t_philo *philo, t_param *param);
-void				do_think(t_philo *philo, t_param *param);
+void				do_think(t_philo *philo);
 void				do_sleep(t_philo *philo, t_param *param);
 int					check_death(t_philo *philo, t_param *param);
 

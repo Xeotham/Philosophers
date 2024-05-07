@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:02:02 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/07 16:32:23 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/07 21:11:25 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_args(char **av)
 			if (!ft_isdigit(av[i][j]))
 				return (0);
 		}
-		if (!ft_atou(av[i]) || !j || ft_atou(av[i]) * 1000 < ft_atou(av[i]))
+		if (!ft_atou(av[i]) || !j || (ft_atou(av[i]) * 1000) < ft_atou(av[i]))
 			return (0);
 	}
 	return (1);
@@ -58,12 +58,14 @@ t_param	*store_param(int ac, char **av)
 	param->time_to_sleep = ft_atou(av[3]) * 1000;
 	if (ac == 5)
 		param->num_to_eat = ft_atou(av[4]);
+	printf("The spaghettis are in the table...\n");
 	return (param);
 }
 
 int	main(int ac, char **av)
 {
-	t_param			*param;
+	t_param	*param;
+	t_philo	**philos;
 
 	if (ac < 5 || ac > 6)
 		return (1); //error :wrong args
@@ -74,16 +76,23 @@ int	main(int ac, char **av)
 		return (1);
 	gettimeofday(&param->base_time, NULL);
 	get_timestamp(&param->base_time);
-	param->philos = creat_philo(param);
-	if (!param->philos)
+	philos = creat_philo(param);
+	param->philos = philos;
+	if (!philos)
 	{
 		free(param);
 		return (1);
 	}
-	philo_loop(param);
+	param->forks = creat_forks(param);
+	if (!param->forks)
+	{
+		free_param(param);
+		free_philo(philos, philo_count(philos));
+		return (1);
+	}
+	philo_loop(philos);
 	// int	i = -1;
 	// while (philos[++i])
 	// 	printf("philo number %d : L_fork %d , R_fork %d , state %d\n", i + 1, philos[i]->left_fork, philos[i]->right_fork, philos[i]->state);
-	free_philo(param->philos, philo_count(param->philos));
-	free(param);
+	free_param(param);
 }

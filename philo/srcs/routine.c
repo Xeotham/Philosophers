@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:19:59 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/07 16:49:58 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/07 21:36:34 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@ void	unlock_fork_mutex(t_philo *philo, t_fork *forks)
 
 void	*routine(void *ptr)
 {
-	t_param			*param;
 	t_philo			*philo;
+	t_param			*param;
 
-	param = ptr;
-	philo = param->philos[param->i_philo];
-	printf("philo number %d created\n", philo->philo_num);
+	philo = ptr;
+	param = philo->param;
+	print_msg(get_timestamp(NULL), philo->philo_num, JOIN);
 	while (!is_dead(philo))
 	{
 		if (!check_death(philo, param))
 		{
-			param->philos[param->i_philo]->state = P_DEAD;
+			philo->state = P_DEAD;
 			return (NULL);
 		}
 		if (philo->state == P_EAT)
@@ -38,17 +38,20 @@ void	*routine(void *ptr)
 		else if (philo->state == P_SLEEP)
 			do_sleep(philo, param);
 		else if (philo->state == P_THINK)
-			do_think(philo, param);
+			do_think(philo);
 	}
+	if (param->philos[philo->philo_num])
+		pthread_join(param->philos[philo->philo_num]->philo, NULL);
+	printf("exiting...\n");
 	return (NULL);
 }
 
-void	philo_loop(t_param *param)
+void	philo_loop(t_philo **philos)
 {
-	param->i_philo = 0;
-	while (param->philos[param->i_philo])
-	{
-		pthread_create(&param->philos[param->i_philo]->philo, NULL, routine, param);
-		param->i_philo++;
-	}
+	int	i;
+	
+	i = -1;
+	while (philos[++i])
+		pthread_create(&philos[i]->philo, NULL, routine, philos[i]);
+	pthread_join(philos[0]->philo, NULL);
 }

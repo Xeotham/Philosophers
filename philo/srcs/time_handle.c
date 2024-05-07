@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:18:00 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/07 16:24:46 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/07 21:33:47 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,12 @@ unsigned int	get_timestamp(struct timeval *base_clock)
 	if (base_clock)
 	{
 		base_time = base_clock->tv_usec;
+		printf("The clock is ready...\n");
 		return (0);
 	}
 	else
 	{
 		gettimeofday(&clock, NULL);
-		return ((base_time - clock.tv_usec) / 1000);
+		return ((clock.tv_usec - base_time) / 1000);
 	}
 }
