@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:19:59 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/07 16:37:01 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/07 16:49:58 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	*routine(void *ptr)
 	t_philo			*philo;
 
 	param = ptr;
-	printf("philo number %d created\n", param->i_philo);
 	philo = param->philos[param->i_philo];
+	printf("philo number %d created\n", philo->philo_num);
 	while (!is_dead(philo))
 	{
 		if (!check_death(philo, param))
@@ -47,5 +47,8 @@ void	philo_loop(t_param *param)
 {
 	param->i_philo = 0;
 	while (param->philos[param->i_philo])
-		pthread_create(&param->philos[param->i_philo++]->philo, NULL, routine, param);
+	{
+		pthread_create(&param->philos[param->i_philo]->philo, NULL, routine, param);
+		param->i_philo++;
+	}
 }

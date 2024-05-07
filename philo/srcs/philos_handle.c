@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:20:54 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/07 16:15:32 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/07 16:46:51 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static t_philo	*init_philo(int i_philo, int philo_num)
 	philo = malloc(sizeof(t_philo));
 	if (!philo)
 		return (NULL);
+	philo->philo_num = i_philo + 1;
 	philo->right_fork = i_philo;
 	if (i_philo == philo_num - 1)
 		philo->left_fork = 0;
