@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:58:38 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/07 21:35:50 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/09 22:16:36 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ typedef struct s_fork
 typedef struct s_param
 {
 	int				nb_args;
-	unsigned int	philo_num;
-	unsigned int	time_to_die;
-	unsigned int	time_to_eat;
-	unsigned int	time_to_sleep;
-	unsigned int	num_to_eat;
 	t_fork			*forks;
+	size_t			philo_num;
+	size_t			time_to_die;
+	size_t			time_to_eat;
+	size_t			time_to_sleep;
+	size_t			num_to_eat;
 	struct s_philo	**philos;
 	struct timeval	base_time;
 }					t_param;
@@ -79,33 +79,34 @@ typedef struct s_philo
 	int				left_fork;
 	int				right_fork;
 	int				fork_use[2];
+	t_param			*param;
 	t_state			state;
 	pthread_t		philo;
-	struct timeval	last_eat;
-	t_param			*param;
+	struct timeval	last_meal;
+	pthread_mutex_t	check_state;
 }					t_philo;
 
 /* ==== UTILS ==== */
 
 int					ft_isdigit(int c);
-unsigned int		ft_atou(const char *str);
+size_t				ft_atou(const char *str);
 size_t				philo_count(void *philo);
 void				free_philo(void *philo, size_t size);
-int					is_dead(t_philo *philo);
 int					are_dead(t_philo **philos);
-void				print_msg(unsigned int timestamp, int philo, char *msg);
+void				print_msg(int philo, char *msg);
 void				free_param(t_param *param);
-unsigned int		get_timestamp(struct timeval *base_clock);
-void				global_timer(unsigned int time);
+size_t				get_timestamp(struct timeval *base_clock);
+int					global_timer(size_t time, t_philo *philo);
 void				unlock_fork_mutex(t_philo *philo, t_fork *forks);
+void				change_state(t_philo *philo, t_state state);
 
 /* ==== PHILOS_HANDLE ==== */
-void				philo_loop(t_philo **philos);
+void				philo_loop(t_philo **philos, t_param *param);
 t_philo				**creat_philo(t_param *param);
 t_fork				*creat_forks(t_param *param);
-void				do_eat(t_philo *philo, t_param *param);
+int					do_eat(t_philo *philo, t_param *param);
 void				do_think(t_philo *philo);
-void				do_sleep(t_philo *philo, t_param *param);
+int					do_sleep(t_philo *philo, t_param *param);
 int					check_death(t_philo *philo, t_param *param);
 
 #endif

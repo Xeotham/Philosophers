@@ -6,13 +6,14 @@ FLAGS = -Wall -Wextra -Werror -gdwarf-4 -pthread -fsanitize=thread
 NAME = philo
 #============ MINISHELL SOURCES =============#
 SRCS = main.c \
+	eat.c \
 	utils.c \
+	action.c \
+	routine.c \
 	philo_utils.c \
 	philos_handle.c \
-	routine.c \
-	action.c \
-	eat.c \
-	time_handle.c
+	time_handle.c \
+	thread_utils.c
 #============ TRANSFORM .c TO .o ============#
 OBJ_DIR = obj/
 SRCS_DIR = srcs/

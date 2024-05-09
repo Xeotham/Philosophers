@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:14:53 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/07 21:25:52 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/09 22:16:57 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int	ft_isdigit(int c)
 	return (1);
 }
 
-unsigned int	ft_atou(const char *str)
+size_t	ft_atou(const char *str)
 {
 	int				i;
-	unsigned int	nbr;
+	size_t	nbr;
 
 	i = 0;
 	nbr = 0;
@@ -44,31 +44,34 @@ unsigned int	ft_atou(const char *str)
 
 int	are_dead(t_philo **philos)
 {
-	int	i;
+	int		i;
+	t_state	state;
 
 	i = 0;
 	while (philos[i])
 	{
-		if (philos[i++]->state == P_DEAD)
-			return (0);
+		pthread_mutex_lock(&philos[i]->check_state);
+		state = philos[i]->state;
+		pthread_mutex_unlock(&philos[i]->check_state);
+		if (state == P_DEAD)
+			return (1);
+		i++;
 	}
-	return (1);
+	return (0);
 }
 
-void	print_msg(unsigned int timestamp, int philo, char *msg)
+void	print_msg(int philo, char *msg)
 {
-	printf("[%u ms] : philo number %d %s\n", timestamp * 1000, philo, msg);
+	printf("[%zu ms] : philo number %d %s\n", get_timestamp(NULL), philo, msg);
 }
 
 void	free_param(t_param *param)
 {
-	unsigned int	i;
+	size_t	i;
 
 	i = 0;
 	if (!param)
 		return ;
-	if (param->philos)
-		free_philo(param->philos, philo_count(param->philos));
 	if (param->forks)
 	{
 		while (i < param->philo_num)

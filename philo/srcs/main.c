@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:02:02 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/07 21:11:25 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/09 22:16:10 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,18 @@ t_param	*store_param(int ac, char **av)
 	param->time_to_sleep = ft_atou(av[3]) * 1000;
 	if (ac == 5)
 		param->num_to_eat = ft_atou(av[4]);
-	printf("The spaghettis are in the table...\n");
+	printf("The bowl is set on the table...\n");
 	return (param);
 }
 
-int	main(int ac, char **av)
+t_philo	**init_all(int ac, char **av)
 {
 	t_param	*param;
 	t_philo	**philos;
 
-	if (ac < 5 || ac > 6)
-		return (1); //error :wrong args
-	if (!check_args(av))
-		return (1); //error :wrong syntax arg
 	param = store_param(ac - 1, av + 1);
 	if (!param)
-		return (1);
+		return (NULL);
 	gettimeofday(&param->base_time, NULL);
 	get_timestamp(&param->base_time);
 	philos = creat_philo(param);
@@ -81,18 +77,29 @@ int	main(int ac, char **av)
 	if (!philos)
 	{
 		free(param);
-		return (1);
+		return (NULL);
 	}
 	param->forks = creat_forks(param);
 	if (!param->forks)
 	{
 		free_param(param);
 		free_philo(philos, philo_count(philos));
-		return (1);
+		return (NULL);
 	}
-	philo_loop(philos);
-	// int	i = -1;
-	// while (philos[++i])
-	// 	printf("philo number %d : L_fork %d , R_fork %d , state %d\n", i + 1, philos[i]->left_fork, philos[i]->right_fork, philos[i]->state);
-	free_param(param);
+	return (philos);
+}
+
+int	main(int ac, char **av)
+{
+	t_philo	**philos;
+
+	if (ac < 5 || ac > 6)
+		return (1); //error :wrong args
+	if (!check_args(av))
+		return (1); //error :wrong syntax arg
+	philos = init_all(ac, av);
+	if (!philos)
+		return (1);
+	philo_loop(philos, (*philos)->param);
+	free_param((*philos)->param);
 }
