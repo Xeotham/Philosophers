@@ -6,18 +6,30 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 10:32:14 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/09 22:07:17 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/10 15:49:53 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
+
+int	one_died(t_param *param)
+{
+	int	death;
+
+	death = 0;
+	pthread_mutex_lock(&param->check_death);
+	if (param->death == 1)
+		death = 1;
+	pthread_mutex_unlock(&param->check_death);
+	return (death);
+}
 
 int	check_death(t_philo *philo, t_param *param)
 {
 	size_t	death_timer;
 	struct timeval	clock;
 
-	if (are_dead(param->philos))
+	if (one_died(param))
 		return (0);
 	gettimeofday(&clock, NULL);
 	clock.tv_usec += ((clock.tv_sec - philo->last_meal.tv_sec) * 1000000);

@@ -6,13 +6,13 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:20:54 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/09 22:07:17 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/10 16:41:30 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
 
-t_fork	*creat_forks(t_param *param)
+t_fork	*create_forks(t_param *param)
 {
 	size_t	i;
 	t_fork			*forks;
@@ -39,31 +39,19 @@ static t_philo	*init_philo(int i_philo, int philo_num, t_param *param)
 	if (!philo)
 		return (NULL);
 	philo->philo_num = i_philo + 1;
-	if (i_philo % 2 == 1)
-	{
-		if (i_philo == philo_num - 1)
-			philo->right_fork = 0;
-		else
-			philo->right_fork = i_philo + 1;
-		philo->left_fork = i_philo;
-	}
+	if (i_philo == philo_num - 1)
+		philo->right_fork = 0;
 	else
-	{
-		philo->right_fork = i_philo;
-		if (i_philo == philo_num - 1)
-			philo->left_fork = 0;
-		else
-			philo->left_fork = i_philo + 1;
-	}
-	philo->fork_use[0] = 0;
-	philo->fork_use[1] = 0;
+		philo->right_fork = i_philo + 1;
+	philo->left_fork = i_philo;
+	philo->fork_use = 0;
 	philo->state = P_EAT;
 	philo->param = param;
 	gettimeofday(&philo->last_meal, NULL);
 	return (philo);
 }
 
-t_philo	**creat_philo(t_param *param)
+t_philo	**create_philo(t_param *param)
 {
 	size_t	i;
 	t_philo			**philos;

@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:19:59 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/09 22:15:48 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/10 16:39:24 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	*routine(void *ptr)
 	t_philo			*philo;
 	t_param			*param;
 
-	// int	test = 0;
 	philo = ptr;
 	param = philo->param;
 	print_msg(philo->philo_num, JOIN);
@@ -50,14 +49,13 @@ void	*routine(void *ptr)
 		else if (philo->state == P_THINK)
 			do_think(philo);
 	}
-	if (philo->fork_use[LEFT_FORK])
+	if (philo->fork_use)
+	{
 		pthread_mutex_unlock(&param->forks[philo->left_fork].fork);
-	if (philo->fork_use[RIGHT_FORK])
 		pthread_mutex_unlock(&param->forks[philo->right_fork].fork);
+	}
 	if (param->philos[philo->philo_num])
 		pthread_join(param->philos[philo->philo_num]->philo, NULL);
-	pthread_mutex_destroy(&philo->check_state);
-	free(philo);
 	return (NULL);
 }
 
@@ -68,7 +66,16 @@ void	philo_loop(t_philo **philos, t_param *param)
 	i = -1;
 	while (philos[++i])
 		pthread_create(&philos[i]->philo, NULL, routine, philos[i]);
+	while (1)
+	{
+		if (are_dead(philos))
+		{
+			pthread_mutex_lock(&param->check_death);
+			param->death = 1;
+			pthread_mutex_unlock(&param->check_death);
+			break ;
+		}
+	}
 	pthread_join(philos[0]->philo, NULL);
-	free(philos[param->philo_num]);
-	free(philos);
+	free_philo(philos, philo_count(philos));
 }

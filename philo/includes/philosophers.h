@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:58:38 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/09 22:16:36 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/10 16:35:33 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_fork
 typedef struct s_param
 {
 	int				nb_args;
+	int				death;
 	t_fork			*forks;
 	size_t			philo_num;
 	size_t			time_to_die;
@@ -71,6 +72,7 @@ typedef struct s_param
 	size_t			num_to_eat;
 	struct s_philo	**philos;
 	struct timeval	base_time;
+	pthread_mutex_t	check_death;
 }					t_param;
 
 typedef struct s_philo
@@ -78,7 +80,7 @@ typedef struct s_philo
 	int				philo_num;
 	int				left_fork;
 	int				right_fork;
-	int				fork_use[2];
+	int				fork_use;
 	t_param			*param;
 	t_state			state;
 	pthread_t		philo;
@@ -102,8 +104,8 @@ void				change_state(t_philo *philo, t_state state);
 
 /* ==== PHILOS_HANDLE ==== */
 void				philo_loop(t_philo **philos, t_param *param);
-t_philo				**creat_philo(t_param *param);
-t_fork				*creat_forks(t_param *param);
+t_philo				**create_philo(t_param *param);
+t_fork				*create_forks(t_param *param);
 int					do_eat(t_philo *philo, t_param *param);
 void				do_think(t_philo *philo);
 int					do_sleep(t_philo *philo, t_param *param);

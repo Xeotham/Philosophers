@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:18:00 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/09 22:07:17 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/10 15:37:10 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	global_timer(size_t time, t_philo *philo)
 		if (timer >= philo->param->time_to_die)
 		{
 			print_msg(philo->philo_num, DEAD);
-			philo->state = P_DEAD;
+			change_state(philo, P_DEAD);
 			return (0);
 		}
 		usleep(1000);

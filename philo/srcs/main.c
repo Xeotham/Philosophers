@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:02:02 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/09 22:16:10 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/10 16:09:08 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,14 @@ t_philo	**init_all(int ac, char **av)
 		return (NULL);
 	gettimeofday(&param->base_time, NULL);
 	get_timestamp(&param->base_time);
-	philos = creat_philo(param);
+	philos = create_philo(param);
 	param->philos = philos;
 	if (!philos)
 	{
 		free(param);
 		return (NULL);
 	}
-	param->forks = creat_forks(param);
+	param->forks = create_forks(param);
 	if (!param->forks)
 	{
 		free_param(param);
@@ -92,6 +92,7 @@ t_philo	**init_all(int ac, char **av)
 int	main(int ac, char **av)
 {
 	t_philo	**philos;
+	t_param	*param;
 
 	if (ac < 5 || ac > 6)
 		return (1); //error :wrong args
@@ -100,6 +101,7 @@ int	main(int ac, char **av)
 	philos = init_all(ac, av);
 	if (!philos)
 		return (1);
-	philo_loop(philos, (*philos)->param);
-	free_param((*philos)->param);
+	param = (*philos)->param;
+	philo_loop(philos, param);
+	free_param(param);
 }
