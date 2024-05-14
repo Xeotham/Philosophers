@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:02:02 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/10 16:09:08 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/13 18:20:45 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	check_args(char **av)
 
 t_param	*store_param(int ac, char **av)
 {
-	t_param	*param;
+	t_param			*param;
+	struct timeval	clock;
 
 	param = malloc(sizeof(t_param));
 	if (!param)
@@ -58,6 +59,9 @@ t_param	*store_param(int ac, char **av)
 	param->time_to_sleep = ft_atou(av[3]) * 1000;
 	if (ac == 5)
 		param->num_to_eat = ft_atou(av[4]);
+	pthread_mutex_init(&param->check_death, NULL);
+	gettimeofday(&clock, NULL);
+	get_timestamp(&clock);
 	printf("The bowl is set on the table...\n");
 	return (param);
 }
@@ -70,8 +74,6 @@ t_philo	**init_all(int ac, char **av)
 	param = store_param(ac - 1, av + 1);
 	if (!param)
 		return (NULL);
-	gettimeofday(&param->base_time, NULL);
-	get_timestamp(&param->base_time);
 	philos = create_philo(param);
 	param->philos = philos;
 	if (!philos)
@@ -102,6 +104,7 @@ int	main(int ac, char **av)
 	if (!philos)
 		return (1);
 	param = (*philos)->param;
+	// pthread_create(&param->is_ready, NULL, is_everyone_ready, philos);
 	philo_loop(philos, param);
 	free_param(param);
 }

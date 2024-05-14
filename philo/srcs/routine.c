@@ -6,27 +6,44 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:19:59 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/10 16:39:24 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/14 13:22:20 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
 
+// void	*is_everyone_ready(void *ptr)
+// {
+// 	t_philo	**philos;
+// 	t_param	*param;
+// 	size_t	i;
+// 	size_t	philo_ready;
+
+// 	philos = ptr;
+// 	param = (*philos)->param;
+// 	philo_ready = 0;
+// 	while(philos[philo_ready])
+// 	{
+// 		i = philo_ready;
+// 		pthread_mutex_lock(&philos[i]->check_state);
+// 		if (philos[i]->is_ready == 1)
+// 			philo_ready++;
+// 		pthread_mutex_unlock(&philos[i]->check_state);
+// 	}
+// 	gettimeofday(&param->base_time, NULL);
+// 	get_timestamp(&param->base_time);
+// 	return (NULL);
+// }
+
 void	unlock_fork_mutex(t_philo *philo, t_fork *forks)
 {
+	pthread_mutex_unlock(&forks[philo->right_fork].fork);
+	pthread_mutex_unlock(&forks[philo->left_fork].fork);
 	pthread_mutex_lock(&forks[philo->left_fork].check_use);
-	if (forks[philo->left_fork].fork_used == 1)
-	{
-		forks[philo->left_fork].fork_used = 0;
-		pthread_mutex_unlock(&forks[philo->left_fork].fork);
-	}
+	forks[philo->left_fork].fork_used = 0;
 	pthread_mutex_unlock(&forks[philo->left_fork].check_use);
 	pthread_mutex_lock(&forks[philo->right_fork].check_use);
-	if (forks[philo->right_fork].fork_used == 1)
-	{
-		pthread_mutex_unlock(&forks[philo->right_fork].fork);
-		forks[philo->right_fork].fork_used = 0;
-	}
+	forks[philo->right_fork].fork_used = 0;
 	pthread_mutex_unlock(&forks[philo->right_fork].check_use);
 }
 
@@ -37,7 +54,8 @@ void	*routine(void *ptr)
 
 	philo = ptr;
 	param = philo->param;
-	print_msg(philo->philo_num, JOIN);
+	gettimeofday(&philo->last_meal, NULL);
+	print_msg(philo, JOIN);
 	while (1)
 	{
 		if (!check_death(philo, param))
@@ -46,8 +64,8 @@ void	*routine(void *ptr)
 			break ;
 		else if (philo->state == P_SLEEP && !do_sleep(philo, param))
 			break;
-		else if (philo->state == P_THINK)
-			do_think(philo);
+		else if (philo->state == P_THINK && !do_think(philo))
+			break;
 	}
 	if (philo->fork_use)
 	{

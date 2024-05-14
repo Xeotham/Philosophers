@@ -6,55 +6,59 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 10:32:14 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/10 15:49:53 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/14 13:21:16 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
 
-int	one_died(t_param *param)
+int	one_died(t_philo *philo, t_param *param)
 {
 	int	death;
 
 	death = 0;
 	pthread_mutex_lock(&param->check_death);
 	if (param->death == 1)
+	{
+		change_state(philo, P_DEAD);
 		death = 1;
+	}
 	pthread_mutex_unlock(&param->check_death);
 	return (death);
 }
 
 int	check_death(t_philo *philo, t_param *param)
 {
-	size_t	death_timer;
+	size_t			death_timer;
 	struct timeval	clock;
 
-	if (one_died(param))
+	if (one_died(philo, param))
 		return (0);
 	gettimeofday(&clock, NULL);
-	clock.tv_usec += ((clock.tv_sec - philo->last_meal.tv_sec) * 1000000);
-	death_timer = clock.tv_usec - philo->last_meal.tv_usec;
+	clock.tv_usec += clock.tv_sec * 1000000;
+	death_timer = clock.tv_usec - (philo->last_meal.tv_usec + (philo->last_meal.tv_sec * 1000000));
 	if (death_timer >= param->time_to_die)
 	{
-		print_msg(philo->philo_num, DEAD);
+		if (!print_msg(philo, DEAD))
+			return (0);
 		change_state(philo, P_DEAD);
 		return (0);
 	}
 	return (1);
 }
 
-void	do_think(t_philo *philo)
+int	do_think(t_philo *philo)
 {
-	print_msg(philo->philo_num, THINK);
+	if (!print_msg(philo, THINK))
+		return (0);
 	change_state(philo, P_EAT);
+	return (1);
 }
 
 int	do_sleep(t_philo *philo, t_param *param)
 {
-	size_t	timer;
-
-	print_msg(philo->philo_num, SLEEP);
-	timer = 0;
+	if (!print_msg(philo, SLEEP))
+		return (0);
 	if (!global_timer(param->time_to_sleep, philo))
 		return (0);
 	change_state(philo, P_THINK);

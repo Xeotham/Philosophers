@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:20:54 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/10 16:41:30 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/13 20:20:04 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ static t_philo	*init_philo(int i_philo, int philo_num, t_param *param)
 		philo->right_fork = i_philo + 1;
 	philo->left_fork = i_philo;
 	philo->fork_use = 0;
-	philo->state = P_EAT;
+	philo->state = P_THINK;
 	philo->param = param;
-	gettimeofday(&philo->last_meal, NULL);
+	philo->is_ready = 0;
+	pthread_mutex_init(&philo->check_state, NULL);
 	return (philo);
 }
 
