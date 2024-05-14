@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:02:02 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/13 18:20:45 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/14 16:40:58 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,16 @@ int	check_args(char **av)
 		while (av[i][++j])
 		{
 			if (!ft_isdigit(av[i][j]))
+			{
+				error_handle(P_SYNTAX_ERROR, NULL, NULL);
 				return (0);
+			}
 		}
 		if (!ft_atou(av[i]) || !j || (ft_atou(av[i]) * 1000) < ft_atou(av[i]))
+		{
+			error_handle(P_INVALID_ARGS, NULL, NULL);
 			return (0);
+		}	
 	}
 	return (1);
 }
@@ -46,7 +52,6 @@ int	check_args(char **av)
 t_param	*store_param(int ac, char **av)
 {
 	t_param			*param;
-	struct timeval	clock;
 
 	param = malloc(sizeof(t_param));
 	if (!param)
@@ -59,9 +64,11 @@ t_param	*store_param(int ac, char **av)
 	param->time_to_sleep = ft_atou(av[3]) * 1000;
 	if (ac == 5)
 		param->num_to_eat = ft_atou(av[4]);
+	else
+		param->num_to_eat = -1;
 	pthread_mutex_init(&param->check_death, NULL);
-	gettimeofday(&clock, NULL);
-	get_timestamp(&clock);
+	gettimeofday(&param->base_time, NULL);
+	get_timestamp(&param->base_time);
 	printf("The bowl is set on the table...\n");
 	return (param);
 }
@@ -73,19 +80,21 @@ t_philo	**init_all(int ac, char **av)
 
 	param = store_param(ac - 1, av + 1);
 	if (!param)
-		return (NULL);
-	philos = create_philo(param);
-	param->philos = philos;
-	if (!philos)
 	{
-		free(param);
+		error_handle(P_MALLOC_ERROR, NULL, NULL);
 		return (NULL);
 	}
+	philos = create_philo(param);
+	if (!philos)
+	{
+		error_handle(P_MALLOC_ERROR, param, NULL);
+		return (NULL);
+	}
+	param->philos = philos;
 	param->forks = create_forks(param);
 	if (!param->forks)
 	{
-		free_param(param);
-		free_philo(philos, philo_count(philos));
+		error_handle(P_MALLOC_ERROR, param, philos);
 		return (NULL);
 	}
 	return (philos);
@@ -96,10 +105,18 @@ int	main(int ac, char **av)
 	t_philo	**philos;
 	t_param	*param;
 
-	if (ac < 5 || ac > 6)
-		return (1); //error :wrong args
+	if (ac > 6)
+	{
+		error_handle(P_ARGS_ERROR_1, NULL, NULL);
+		return (1);
+	}
+	else if (ac < 5)
+	{
+		error_handle(P_ARGS_ERROR_2, NULL, NULL);
+		return (1);
+	}
 	if (!check_args(av))
-		return (1); //error :wrong syntax arg
+		return (1);
 	philos = init_all(ac, av);
 	if (!philos)
 		return (1);

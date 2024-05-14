@@ -5,15 +5,21 @@ FLAGS = -Wall -Wextra -Werror -gdwarf-4 -pthread -fsanitize=thread
 #=================== NAME ===================#
 NAME = philo
 #============ MINISHELL SOURCES =============#
-SRCS = main.c \
-	eat.c \
+SRCS = \
 	utils.c \
-	action.c \
-	routine.c \
-	philo_utils.c \
-	philos_handle.c \
-	time_handle.c \
-	thread_utils.c
+	init/main.c \
+	init/philo_utils.c \
+	init/philos_handle.c \
+	routine/eat.c \
+	routine/action.c \
+	routine/routine.c \
+	routine/time_handle.c \
+	routine/thread_utils.c \
+	ft_printf/ft_printf.c \
+	ft_printf/printf_hex_print.c \
+	ft_printf/printf_nbr_print.c \
+	ft_printf/printf_char_print.c \
+	error/error.c \
 #============ TRANSFORM .c TO .o ============#
 OBJ_DIR = obj/
 SRCS_DIR = srcs/

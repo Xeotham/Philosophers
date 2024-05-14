@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:20:54 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/13 20:20:04 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/14 16:41:29 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static t_philo	*init_philo(int i_philo, int philo_num, t_param *param)
 	philo->fork_use = 0;
 	philo->state = P_THINK;
 	philo->param = param;
-	philo->is_ready = 0;
 	pthread_mutex_init(&philo->check_state, NULL);
 	return (philo);
 }

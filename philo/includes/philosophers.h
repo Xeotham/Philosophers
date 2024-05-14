@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:58:38 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/13 18:07:51 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/14 16:43:37 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 /* ==== INCLUDES ==== */
 
 # include <errno.h>
+# include <ft_printf.h>
+# include <ph_error.h>
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -70,7 +72,6 @@ typedef struct s_param
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	size_t			num_to_eat;
-	pthread_t		is_ready;
 	struct timeval	base_time;
 	struct s_philo	**philos;
 	pthread_mutex_t	check_death;
@@ -78,11 +79,11 @@ typedef struct s_param
 
 typedef struct s_philo
 {
-	int				is_ready;
 	int				philo_num;
 	int				left_fork;
 	int				right_fork;
 	int				fork_use;
+	size_t			nb_ate;
 	t_param			*param;
 	t_state			state;
 	pthread_t		philo;
@@ -97,14 +98,13 @@ size_t				ft_atou(const char *str);
 size_t				philo_count(void *philo);
 void				free_philo(void *philo, size_t size);
 int					are_dead(t_philo **philos);
-int	print_msg(t_philo *philo, char *msg);
+int					print_msg(t_philo *philo, char *msg);
 void				free_param(t_param *param);
 size_t				get_timestamp(struct timeval *base_clock);
 int					global_timer(size_t time, t_philo *philo);
 void				unlock_fork_mutex(t_philo *philo, t_fork *forks);
 void				change_state(t_philo *philo, t_state state);
-int	one_died(t_philo *philo, t_param *param);
-void	*is_everyone_ready(void *ptr);
+int					one_died(t_philo *philo, t_param *param);
 
 /* ==== PHILOS_HANDLE ==== */
 void				philo_loop(t_philo **philos, t_param *param);

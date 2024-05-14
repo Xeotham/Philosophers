@@ -1,20 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   thread_utils.c                                     :+:      :+:    :+:   */
+/*   printf_char_print.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/08 16:16:47 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/09 20:44:51 by mhaouas          ###   ########.fr       */
+/*   Created: 2023/11/08 00:15:58 by mhaouas           #+#    #+#             */
+/*   Updated: 2024/05/14 13:54:59 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
 
-void	change_state(t_philo *philo, t_state state)
+int	ft_cputstr(int fd, char *str)
 {
-	pthread_mutex_lock(&philo->check_state);
-	philo->state = state;
-	pthread_mutex_unlock(&philo->check_state);
+	size_t	count;
+	int		i;
+
+	count = 0;
+	i = 0;
+	if (!str)
+	{
+		count = write(fd, "(null)", 6);
+		return (count);
+	}
+	while (str[i])
+	{
+		count += write(fd, str + i, 1);
+		i++;
+	}
+	return (count);
+}
+
+int	ft_cputchar(int fd, char c)
+{
+	int	count;
+
+	count = 0;
+	count += write(fd, &c, 1);
+	return (count);
 }
