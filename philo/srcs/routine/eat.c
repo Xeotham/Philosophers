@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:02:27 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/14 16:48:36 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/15 10:40:25 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,6 @@ int	do_eat(t_philo *philo, t_param *param)
 			return (0);
 		if (!global_timer(param->time_to_eat, philo))
 			return (0);
-		philo->fork_use = 0;
-		unlock_fork_mutex(philo, param->forks);
-		gettimeofday(&philo->last_meal, NULL);
 		change_state(philo, P_SLEEP);
 	}
 	return (1);

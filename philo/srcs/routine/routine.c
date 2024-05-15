@@ -6,43 +6,26 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:19:59 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/14 16:46:21 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/15 19:13:43 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
 
-size_t	everyon_ate(t_philo **philos, t_param *param)
+void	routine_loop(t_philo *philo, t_param *param)
 {
-	int		i;
-	size_t	philo_num;
-
-
-	i = 0;
-	philo_num = 0;
-	if (param->num_to_eat == (size_t)-1)
-		return (-1);
-	while (philos[i])
+	while (1)
 	{
-		pthread_mutex_lock(&philos[i]->check_state);
-		if (philos[i]->nb_ate >= param->num_to_eat)
-			philo_num++;
-		pthread_mutex_unlock(&philos[i]->check_state);
-		i++;
+		if (!check_death(philo, param))
+			return ;
+		if (philo->state == P_EAT && !do_eat(philo, param))
+			return ;
+		else if (philo->state == P_SLEEP && !do_sleep(philo, param))
+			return ;
+		else if (philo->state == P_THINK && !do_think(philo))
+			return ;
+		// printf("nb_ate : %zu\n", philo->nb_ate);
 	}
-	return (philo_num);
-}
-
-void	unlock_fork_mutex(t_philo *philo, t_fork *forks)
-{
-	pthread_mutex_unlock(&forks[philo->right_fork].fork);
-	pthread_mutex_unlock(&forks[philo->left_fork].fork);
-	pthread_mutex_lock(&forks[philo->left_fork].check_use);
-	forks[philo->left_fork].fork_used = 0;
-	pthread_mutex_unlock(&forks[philo->left_fork].check_use);
-	pthread_mutex_lock(&forks[philo->right_fork].check_use);
-	forks[philo->right_fork].fork_used = 0;
-	pthread_mutex_unlock(&forks[philo->right_fork].check_use);
 }
 
 void	*routine(void *ptr)
@@ -53,18 +36,10 @@ void	*routine(void *ptr)
 	philo = ptr;
 	param = philo->param;
 	print_msg(philo, JOIN);
+	if (philo->philo_num % 2 == 0)
+		usleep(1000);
 	gettimeofday(&philo->last_meal, NULL);
-	while (1)
-	{
-		if (!check_death(philo, param))
-			break ;
-		if (philo->state == P_EAT && !do_eat(philo, param))
-			break ;
-		else if (philo->state == P_SLEEP && !do_sleep(philo, param))
-			break ;
-		else if (philo->state == P_THINK && !do_think(philo))
-			break ;
-	}
+	routine_loop(philo, param);
 	if (philo->fork_use)
 	{
 		pthread_mutex_unlock(&param->forks[philo->right_fork].fork);
@@ -75,6 +50,21 @@ void	*routine(void *ptr)
 	return (NULL);
 }
 
+void	check_philo_loop(t_philo **philos, t_param *param)
+{
+	while (1)
+	{
+		if (are_dead(philos)
+			|| (param->num_to_eat != (size_t)-1 && everyone_ate(philos, param) == param->philo_num))
+		{
+			pthread_mutex_lock(&param->check_death);
+			param->death = 1;
+			pthread_mutex_unlock(&param->check_death);
+			return ;
+		}
+	}
+}
+
 void	philo_loop(t_philo **philos, t_param *param)
 {
 	int	i;
@@ -82,17 +72,11 @@ void	philo_loop(t_philo **philos, t_param *param)
 	i = -1;
 	while (philos[++i])
 		pthread_create(&philos[i]->philo, NULL, routine, philos[i]);
-	while (1)
-	{
-		if (are_dead(philos)
-			|| (param->num_to_eat != (size_t)-1 && everyon_ate(philos, param) == param->philo_num))
-		{
-			pthread_mutex_lock(&param->check_death);
-			param->death = 1;
-			pthread_mutex_unlock(&param->check_death);
-			break ;
-		}
-	}
+	check_philo_loop(philos, param);
 	pthread_join(philos[0]->philo, NULL);
+	i = -1;
+	// printf("\n\n");
+	// while (philos[++i])
+	// 	printf("philo number %d ate %zu time\n", philos[i]->philo_num, philos[i]->nb_ate);
 	free_philo(philos, philo_count(philos));
 }
