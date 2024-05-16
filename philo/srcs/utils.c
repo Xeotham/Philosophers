@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:14:53 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/13 16:23:52 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/16 17:33:56 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	print_msg(t_philo *philo, char *msg)
 {
 	if (one_died(philo, philo->param))
 		return (0);
-	printf("[%zu ms] : philo number %d %s\n", get_timestamp(NULL), philo->philo_num, msg);
+	printf("[%zu ms] : philo number %d %s\n", get_timestamp(NULL), philo->philo_num + 1, msg);
 	return (1);
 }
 

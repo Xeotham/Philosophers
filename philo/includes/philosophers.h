@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:58:38 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/15 10:26:17 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/16 17:38:14 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,12 @@ typedef struct s_param
 typedef struct s_philo
 {
 	int				philo_num;
+	int				left_philo;
 	int				left_fork;
+	int				right_philo;
 	int				right_fork;
 	int				fork_use;
+	int				just_ate;
 	size_t			nb_ate;
 	t_param			*param;
 	t_state			state;

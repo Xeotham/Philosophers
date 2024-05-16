@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:16:47 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/15 10:46:22 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/16 17:29:26 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ void	change_state(t_philo *philo, t_state state)
 {
 	pthread_mutex_lock(&philo->check_state);
 	if (state == P_SLEEP)
+	{
 		philo->nb_ate++;
+		philo->just_ate = 1;
+	}
 	philo->state = state;
 	pthread_mutex_unlock(&philo->check_state);
 }
