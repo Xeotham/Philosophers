@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:58:38 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/16 17:38:14 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/17 16:22:44 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ typedef enum e_state
 
 # define LEFT_FORK 0
 # define RIGHT_FORK 1
+
+# define MAKE_CHECK 0
+# define MAKE_FORK 1
 
 /* ==== STRUCT ==== */
 /*
@@ -113,7 +116,8 @@ size_t				everyone_ate(t_philo **philos, t_param *param);
 /* ==== PHILOS_HANDLE ==== */
 void				philo_loop(t_philo **philos, t_param *param);
 t_philo				**create_philo(t_param *param);
-t_fork				*create_forks(t_param *param);
+t_fork				*create_forks(t_param *param, t_fork *forks, int check,
+						size_t index);
 int					do_eat(t_philo *philo, t_param *param);
 int					do_think(t_philo *philo);
 int					do_sleep(t_philo *philo, t_param *param);

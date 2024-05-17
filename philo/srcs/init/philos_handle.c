@@ -6,29 +6,31 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:20:54 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/16 17:41:49 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/17 16:42:41 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
 
-t_fork	*create_forks(t_param *param)
+t_fork	*create_forks(t_param *param, t_fork *forks, int check, size_t index)
 {
-	size_t	i;
-	t_fork			*forks;
+	t_fork			*tmp;
+	pthread_mutex_t	*mutex;
 
-	i = 0;
-	forks = malloc(sizeof(t_fork) * param->philo_num);
-	if (!forks)
+	mutex = NULL;
+	if (index == param->philo_num - 1)
+		return (forks);
+	if (forks && check == MAKE_CHECK)
+		mutex = &forks->check_use;
+	else if (forks && check == MAKE_FORK)
+		mutex = &forks[index].fork;
+	if (pthread_mutex_init(mutex, NULL))
 		return (NULL);
-	while (i < param->philo_num)
-	{
-		forks[i].fork_used = 0;
-		pthread_mutex_init(&forks[i].check_use, NULL);
-		pthread_mutex_init(&forks[i++].fork, NULL);
-	}
-	printf("Forks are set...\n");
-	return (forks);
+	forks[index].fork_used = 0;
+	tmp = create_forks(param, forks, !check, index + 1);
+	if (!tmp)
+		pthread_mutex_destroy(mutex);
+	return (tmp);
 }
 
 static t_philo	*init_philo(int i_philo, int philo_num, t_param *param)
@@ -52,6 +54,8 @@ static t_philo	*init_philo(int i_philo, int philo_num, t_param *param)
 	else
 		philo->right_philo = i_philo - 1;
 	philo->right_fork = i_philo;
+	if (i_philo % 2 == 1)
+		philo->just_ate = 1;
 	philo->fork_use = 0;
 	philo->state = P_THINK;
 	philo->param = param;

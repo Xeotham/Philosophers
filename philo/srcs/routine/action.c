@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 10:32:14 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/15 10:40:34 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/17 11:12:33 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ int	do_think(t_philo *philo)
 
 int	do_sleep(t_philo *philo, t_param *param)
 {
-	if (!print_msg(philo, SLEEP))
-		return (0);
 	philo->fork_use = 0;
 	unlock_fork_mutex(philo, param->forks);
+	if (!print_msg(philo, SLEEP))
+		return (0);
 	gettimeofday(&philo->last_meal, NULL);
 	if (!global_timer(param->time_to_sleep, philo))
 		return (0);

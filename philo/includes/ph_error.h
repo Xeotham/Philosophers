@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:37:30 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/14 15:10:51 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/17 16:28:04 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ typedef enum e_error
 	P_SYNTAX_ERROR,
 	P_INVALID_ARGS,
 	P_MALLOC_ERROR,
-
+	P_MUTEX_ERROR,
+	JUST_FREE,
 }		t_error;
 
 # define TEMPLATE \
-	"\nArgs should be : ./philo [Number of philosophers/forks] \
-[Time to die] [Time to eat] [Time to sleep] [Number of time philo should eat (optional)]"
+	"\nArgs should be : ./philo [Number of philosophers/forks: 2 - 200] \
+[Time to die: min 60] [Time to eat: min 60] [Time to sleep: min 60] [Number of time philo should eat (optional)]"
 
-void	error_handle(t_error error, void *param, void *philos);
+int	error_handle(t_error error, void *param, void *philos);
 
 #endif
