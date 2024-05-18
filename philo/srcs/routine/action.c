@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   action.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 10:32:14 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/17 11:12:33 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/18 20:02:52 by xeo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int	check_death(t_philo *philo, t_param *param)
 		return (0);
 	gettimeofday(&clock, NULL);
 	clock.tv_usec += clock.tv_sec * 1000000;
-	death_timer = clock.tv_usec - (philo->last_meal.tv_usec + (philo->last_meal.tv_sec * 1000000));
+	death_timer = clock.tv_usec - (philo->last_meal.tv_usec
++ (philo->last_meal.tv_sec * 1000000));
 	if (death_timer >= param->time_to_die)
 	{
 		if (!print_msg(philo, DEAD))

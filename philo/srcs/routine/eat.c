@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   eat.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:02:27 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/17 16:04:36 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/18 20:03:40 by xeo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,11 @@ int	do_eat(t_philo *philo, t_param *param)
 	if (!should_eat(philo, philos[philo->left_philo]))
 		return (1);
 	if (philo->philo_num % 2 == 0)
-		state = check_fork(philo, &param->forks[philo->left_fork], &param->forks[philo->right_fork]);
+		state = check_fork(philo, &param->forks[philo->left_fork],
+				&param->forks[philo->right_fork]);
 	else
-		state = check_fork(philo, &param->forks[philo->right_fork], &param->forks[philo->left_fork]);
+		state = check_fork(philo, &param->forks[philo->right_fork],
+				&param->forks[philo->left_fork]);
 	if (!state)
 		return (0);
 	if (philo->fork_use)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ph_error.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/14 13:37:30 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/17 16:28:04 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/18 19:52:23 by xeo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ typedef enum e_error
 
 # define TEMPLATE \
 	"\nArgs should be : ./philo [Number of philosophers/forks: 2 - 200] \
-[Time to die: min 60] [Time to eat: min 60] [Time to sleep: min 60] [Number of time philo should eat (optional)]"
+[Time to die: min 60] [Time to eat: min 60] [Time to sleep: min 60] \
+[Number of time philo should eat (optional)]"
 
 int	error_handle(t_error error, void *param, void *philos);
 

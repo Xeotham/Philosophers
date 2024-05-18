@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   thread_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:16:47 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/16 17:29:26 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/18 19:56:56 by xeo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ size_t	everyone_ate(t_philo **philos, t_param *param)
 {
 	int		i;
 	size_t	philo_num;
-
 
 	i = 0;
 	philo_num = 0;

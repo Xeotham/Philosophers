@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:14:53 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/16 17:33:56 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/18 19:53:05 by xeo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_isdigit(int c)
 
 size_t	ft_atou(const char *str)
 {
-	int				i;
+	int		i;
 	size_t	nbr;
 
 	i = 0;
@@ -64,7 +64,8 @@ int	print_msg(t_philo *philo, char *msg)
 {
 	if (one_died(philo, philo->param))
 		return (0);
-	printf("[%zu ms] : philo number %d %s\n", get_timestamp(NULL), philo->philo_num + 1, msg);
+	printf("[%zu ms] : philo number %d %s\n",
+		get_timestamp(NULL), philo->philo_num + 1, msg);
 	return (1);
 }
 

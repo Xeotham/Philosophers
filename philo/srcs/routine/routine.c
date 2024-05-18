@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:19:59 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/17 16:05:45 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/18 19:56:13 by xeo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,11 @@ void	check_philo_loop(t_philo **philos, t_param *param)
 
 void	philo_loop(t_philo **philos, t_param *param)
 {
-	int	i;
+	size_t	i;
 
 	i = -1;
-	while (philos[++i])
+	while (++i < param->philo_num)
 		pthread_create(&philos[i]->philo, NULL, routine, philos[i]);
 	check_philo_loop(philos, param);
 	pthread_join(philos[0]->philo, NULL);
-	free_philo(philos, philo_count(philos));
 }

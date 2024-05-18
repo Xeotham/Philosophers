@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philos_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:20:54 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/17 16:42:41 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/18 20:01:57 by xeo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ static t_philo	*init_philo(int i_philo, int philo_num, t_param *param)
 		philo->left_fork = 0;
 	else
 		philo->left_fork = i_philo + 1;
-	if (i_philo == philo_num - 1)
-		philo->left_philo = 0;
-	else
-		philo->left_philo = i_philo + 1;
+	philo->left_philo = philo->left_fork;
 	if (!i_philo)
 		philo->right_philo = philo_num - 1;
 	else
@@ -66,7 +63,7 @@ static t_philo	*init_philo(int i_philo, int philo_num, t_param *param)
 t_philo	**create_philo(t_param *param)
 {
 	size_t	i;
-	t_philo			**philos;
+	t_philo	**philos;
 
 	i = 0;
 	philos = malloc(sizeof(t_philo *) * (param->philo_num + 1));

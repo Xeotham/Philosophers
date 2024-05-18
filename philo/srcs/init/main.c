@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:02:02 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/17 16:42:19 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/18 19:51:40 by xeo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
-
-/*
-	- av[1] = Numbers of philosophers/forks
-	- av[2] = time to die (ms)
-	- av[3] = time to eat (ms)
-	- av[4] = time to sleep (ms)
-	- av[5] = number of time each philo need to eat (optional)
-*/
 
 int	check_args(char **av)
 {
@@ -95,12 +87,12 @@ int	main(int ac, char **av)
 	t_philo	**philos;
 	t_param	*param;
 
-	if (ac > 6 && error_handle(P_ARGS_ERROR_1, NULL, NULL))
-		return (1);
-	else if (ac < 5 && error_handle(P_ARGS_ERROR_2, NULL, NULL))
-		return (1);
-	else if (ft_atou(av[1]) <= 1 && error_handle(P_SYNTAX_ERROR, NULL, NULL))
-		return (1);
+	if (ac > 6)
+		return (error_handle(P_ARGS_ERROR_1, NULL, NULL));
+	else if (ac < 5)
+		return (error_handle(P_ARGS_ERROR_2, NULL, NULL));
+	else if (ft_atou(av[1]) <= 1)
+		return (error_handle(P_SYNTAX_ERROR, NULL, NULL));
 	if (!check_args(av))
 		return (1);
 	philos = init_all(ac, av);
