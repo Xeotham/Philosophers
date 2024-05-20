@@ -6,7 +6,7 @@
 /*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:19:59 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/18 19:56:13 by xeo              ###   ########.fr       */
+/*   Updated: 2024/05/20 23:34:26 by xeo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	routine_loop(t_philo *philo, t_param *param)
 {
-	while (1)
+	while (!one_died(philo, param))
 	{
 		if (!check_death(philo, param))
 			return ;
@@ -34,6 +34,8 @@ void	*routine(void *ptr)
 
 	philo = ptr;
 	param = philo->param;
+	if (philo->philo_num % 2 == 1)
+		usleep(500);
 	print_msg(philo, JOIN);
 	gettimeofday(&philo->last_meal, NULL);
 	routine_loop(philo, param);

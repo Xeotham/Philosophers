@@ -6,7 +6,7 @@
 /*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:20:54 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/18 20:01:57 by xeo              ###   ########.fr       */
+/*   Updated: 2024/05/20 23:27:08 by xeo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_fork	*create_forks(t_param *param, t_fork *forks, int check, size_t index)
 	if (index == param->philo_num - 1)
 		return (forks);
 	if (forks && check == MAKE_CHECK)
-		mutex = &forks->check_use;
+		mutex = &forks[index].check_use;
 	else if (forks && check == MAKE_FORK)
 		mutex = &forks[index].fork;
 	if (pthread_mutex_init(mutex, NULL))
@@ -45,11 +45,6 @@ static t_philo	*init_philo(int i_philo, int philo_num, t_param *param)
 		philo->left_fork = 0;
 	else
 		philo->left_fork = i_philo + 1;
-	philo->left_philo = philo->left_fork;
-	if (!i_philo)
-		philo->right_philo = philo_num - 1;
-	else
-		philo->right_philo = i_philo - 1;
 	philo->right_fork = i_philo;
 	if (i_philo % 2 == 1)
 		philo->just_ate = 1;

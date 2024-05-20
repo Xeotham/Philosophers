@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:58:38 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/17 16:22:44 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/20 23:26:12 by xeo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,7 @@ typedef struct s_param
 typedef struct s_philo
 {
 	int				philo_num;
-	int				left_philo;
 	int				left_fork;
-	int				right_philo;
 	int				right_fork;
 	int				fork_use;
 	int				just_ate;

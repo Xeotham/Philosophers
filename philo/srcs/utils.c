@@ -6,7 +6,7 @@
 /*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:14:53 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/18 19:53:05 by xeo              ###   ########.fr       */
+/*   Updated: 2024/05/19 14:57:03 by xeo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ int	are_dead(t_philo **philos)
 		state = philos[i]->state;
 		pthread_mutex_unlock(&philos[i]->check_state);
 		if (state == P_DEAD)
+		{
+			print_msg(philos[i], DEAD);
 			return (1);
+		}
 		i++;
 	}
 	return (0);

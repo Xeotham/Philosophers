@@ -6,7 +6,7 @@
 /*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 10:32:14 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/18 20:02:52 by xeo              ###   ########.fr       */
+/*   Updated: 2024/05/19 14:50:35 by xeo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ int	check_death(t_philo *philo, t_param *param)
 + (philo->last_meal.tv_sec * 1000000));
 	if (death_timer >= param->time_to_die)
 	{
-		if (!print_msg(philo, DEAD))
-			return (0);
 		change_state(philo, P_DEAD);
 		return (0);
 	}

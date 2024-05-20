@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time_handle.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:18:00 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/14 14:36:08 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/19 14:51:18 by xeo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int	global_timer(size_t time, t_philo *philo)
 		if (last_meal + timer >= philo->param->time_to_die
 			|| one_died(philo, philo->param))
 		{
-			if (!print_msg(philo, DEAD))
-				return (0);
 			change_state(philo, P_DEAD);
 			return (0);
 		}

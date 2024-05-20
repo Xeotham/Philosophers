@@ -6,31 +6,11 @@
 /*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:02:27 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/18 20:03:40 by xeo              ###   ########.fr       */
+/*   Updated: 2024/05/20 23:27:29 by xeo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philosophers.h>
-
-static int	should_eat(t_philo *philo, t_philo *l_philo)
-{
-	int	eat;
-
-	eat = 1;
-	if (philo->philo_num % 2 == 0)
-		pthread_mutex_lock(&philo->check_state);
-	pthread_mutex_lock(&l_philo->check_state);
-	if (philo->philo_num % 2 == 1)
-		pthread_mutex_lock(&philo->check_state);
-	if (!l_philo->just_ate)
-	{
-		eat = 0;
-		philo->just_ate = 0;
-	}
-	pthread_mutex_unlock(&philo->check_state);
-	pthread_mutex_unlock(&l_philo->check_state);
-	return (eat);
-}
 
 static int	check_fork(t_philo *philo, t_fork *first_fork, t_fork *second_fork)
 {
@@ -59,11 +39,7 @@ static int	check_fork(t_philo *philo, t_fork *first_fork, t_fork *second_fork)
 int	do_eat(t_philo *philo, t_param *param)
 {
 	int		state;
-	t_philo	**philos;
 
-	philos = param->philos;
-	if (!should_eat(philo, philos[philo->left_philo]))
-		return (1);
 	if (philo->philo_num % 2 == 0)
 		state = check_fork(philo, &param->forks[philo->left_fork],
 				&param->forks[philo->right_fork]);
