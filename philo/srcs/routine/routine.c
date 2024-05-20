@@ -6,7 +6,7 @@
 /*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:19:59 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/20 23:34:26 by xeo              ###   ########.fr       */
+/*   Updated: 2024/05/20 23:36:12 by xeo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	*routine(void *ptr)
 
 	philo = ptr;
 	param = philo->param;
+	print_msg(philo, JOIN);
 	if (philo->philo_num % 2 == 1)
 		usleep(500);
-	print_msg(philo, JOIN);
 	gettimeofday(&philo->last_meal, NULL);
 	routine_loop(philo, param);
 	if (philo->fork_use)
