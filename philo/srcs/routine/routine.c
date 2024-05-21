@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:19:59 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/20 23:36:12 by xeo              ###   ########.fr       */
+/*   Updated: 2024/05/21 15:39:02 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	routine_loop(t_philo *philo, t_param *param)
 {
-	while (!one_died(philo, param))
+	while (1)
 	{
 		if (!check_death(philo, param))
 			return ;
@@ -34,9 +34,8 @@ void	*routine(void *ptr)
 
 	philo = ptr;
 	param = philo->param;
-	print_msg(philo, JOIN);
 	if (philo->philo_num % 2 == 1)
-		usleep(500);
+		usleep(130);
 	gettimeofday(&philo->last_meal, NULL);
 	routine_loop(philo, param);
 	if (philo->fork_use)
@@ -53,7 +52,7 @@ void	check_philo_loop(t_philo **philos, t_param *param)
 {
 	while (1)
 	{
-		if (are_dead(philos) || (param->num_to_eat != (size_t)-1
+		if (are_dead(philos) || (param->num_to_eat != (size_t) - 1
 				&& everyone_ate(philos, param) == param->philo_num))
 		{
 			pthread_mutex_lock(&param->check_death);
@@ -69,6 +68,8 @@ void	philo_loop(t_philo **philos, t_param *param)
 	size_t	i;
 
 	i = -1;
+	gettimeofday(&param->base_time, NULL);
+	get_timestamp(&param->base_time);
 	while (++i < param->philo_num)
 		pthread_create(&philos[i]->philo, NULL, routine, philos[i]);
 	check_philo_loop(philos, param);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   thread_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:16:47 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/18 19:56:56 by xeo              ###   ########.fr       */
+/*   Updated: 2024/05/21 14:13:22 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ size_t	everyone_ate(t_philo **philos, t_param *param)
 
 void	change_state(t_philo *philo, t_state state)
 {
+	if (one_died(philo->param))
+		return ;
 	pthread_mutex_lock(&philo->check_state);
 	if (state == P_SLEEP)
 	{

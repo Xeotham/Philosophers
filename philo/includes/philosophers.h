@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 17:58:38 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/20 23:26:12 by xeo              ###   ########.fr       */
+/*   Updated: 2024/05/21 15:28:30 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef enum e_state
 	P_DEAD,
 }					t_state;
 
-# define JOIN "joined the table..."
 # define FORK "has taken a fork."
 # define EAT "is eating."
 # define SLEEP "is sleeping."
@@ -108,7 +107,7 @@ size_t				get_timestamp(struct timeval *base_clock);
 int					global_timer(size_t time, t_philo *philo);
 void				unlock_fork_mutex(t_philo *philo, t_fork *forks);
 void				change_state(t_philo *philo, t_state state);
-int					one_died(t_philo *philo, t_param *param);
+int					one_died(t_param *param);
 size_t				everyone_ate(t_philo **philos, t_param *param);
 
 /* ==== PHILOS_HANDLE ==== */

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:02:02 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/18 19:51:40 by xeo              ###   ########.fr       */
+/*   Updated: 2024/05/21 09:30:43 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ t_param	*store_param(int ac, char **av)
 	else
 		param->num_to_eat = -1;
 	pthread_mutex_init(&param->check_death, NULL);
-	gettimeofday(&param->base_time, NULL);
-	get_timestamp(&param->base_time);
 	printf("The bowl is set on the table...\n");
 	return (param);
 }
@@ -77,7 +75,7 @@ t_philo	**init_all(int ac, char **av)
 	if (!param->forks && error_handle(P_MALLOC_ERROR, param, philos))
 		return (NULL);
 	param->forks = create_forks(param, param->forks, MAKE_CHECK, 0);
-	if (!param->forks && error_handle(P_MUTEX_ERROR, NULL, NULL))
+	if (!param->forks && error_handle(P_MUTEX_ERROR, param, philos))
 		return (NULL);
 	return (philos);
 }

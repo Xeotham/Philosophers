@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time_handle.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:18:00 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/19 14:51:18 by xeo              ###   ########.fr       */
+/*   Updated: 2024/05/21 15:36:10 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	global_timer(size_t time, t_philo *philo)
 		gettimeofday(&clock, NULL);
 		timer = ((clock.tv_sec * 1000000) + clock.tv_usec) - base_time;
 		if (last_meal + timer >= philo->param->time_to_die
-			|| one_died(philo, philo->param))
+			|| one_died(philo->param))
 		{
 			change_state(philo, P_DEAD);
 			return (0);

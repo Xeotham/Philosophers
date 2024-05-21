@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: xeo <xeo@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:14:53 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/19 14:57:03 by xeo              ###   ########.fr       */
+/*   Updated: 2024/05/21 15:37:07 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,23 @@ size_t	ft_atou(const char *str)
 int	are_dead(t_philo **philos)
 {
 	int		i;
-	t_state	state;
+	t_param	*param;
 
 	i = 0;
+	param = (*philos)->param;
 	while (philos[i])
 	{
 		pthread_mutex_lock(&philos[i]->check_state);
-		state = philos[i]->state;
-		pthread_mutex_unlock(&philos[i]->check_state);
-		if (state == P_DEAD)
+		if (philos[i]->state == P_DEAD)
 		{
+			pthread_mutex_lock(&param->check_death);
+			param->death = 1;
+			pthread_mutex_unlock(&param->check_death);
 			print_msg(philos[i], DEAD);
+			pthread_mutex_unlock(&philos[i]->check_state);
 			return (1);
 		}
+		pthread_mutex_unlock(&philos[i]->check_state);
 		i++;
 	}
 	return (0);
@@ -65,10 +69,18 @@ int	are_dead(t_philo **philos)
 
 int	print_msg(t_philo *philo, char *msg)
 {
-	if (one_died(philo, philo->param))
+	t_param	*param;
+
+	param = philo->param;
+	pthread_mutex_lock(&param->check_death);
+	if (param->death && philo->state != P_DEAD)
+	{
+		pthread_mutex_unlock(&param->check_death);
 		return (0);
-	printf("[%zu ms] : philo number %d %s\n",
+	}
+	printf("[%zu ms]: Philo number %d %s\n",
 		get_timestamp(NULL), philo->philo_num + 1, msg);
+	pthread_mutex_unlock(&param->check_death);
 	return (1);
 }
 
