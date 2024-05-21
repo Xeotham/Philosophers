@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:20:54 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/21 20:31:35 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/21 20:41:00 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ static t_philo	*init_philo(int i_philo, int philo_num, t_param *param)
 	else
 		philo->left_fork = i_philo + 1;
 	philo->right_fork = i_philo;
-	if (i_philo % 2 == 1)
-		philo->just_ate = 1;
 	philo->fork_use = 0;
 	philo->state = P_THINK;
 	philo->param = param;
