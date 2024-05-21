@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:02:02 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/21 09:30:43 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/21 20:08:54 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ t_param	*store_param(int ac, char **av)
 	else
 		param->num_to_eat = -1;
 	pthread_mutex_init(&param->check_death, NULL);
-	printf("The bowl is set on the table...\n");
 	return (param);
 }
 
@@ -71,9 +70,10 @@ t_philo	**init_all(int ac, char **av)
 	if (!philos && error_handle(P_MALLOC_ERROR, param, NULL))
 		return (NULL);
 	param->philos = philos;
-	param->forks = malloc(sizeof(t_fork) * param->philo_num);
+	param->forks = creat_fork_tab(param->philo_num, 0, NULL);
 	if (!param->forks && error_handle(P_MALLOC_ERROR, param, philos))
 		return (NULL);
+	param->forks[param->philo_num] = NULL;
 	param->forks = create_forks(param, param->forks, MAKE_CHECK, 0);
 	if (!param->forks && error_handle(P_MUTEX_ERROR, param, philos))
 		return (NULL);
@@ -89,8 +89,6 @@ int	main(int ac, char **av)
 		return (error_handle(P_ARGS_ERROR_1, NULL, NULL));
 	else if (ac < 5)
 		return (error_handle(P_ARGS_ERROR_2, NULL, NULL));
-	else if (ft_atou(av[1]) <= 1)
-		return (error_handle(P_SYNTAX_ERROR, NULL, NULL));
 	if (!check_args(av))
 		return (1);
 	philos = init_all(ac, av);

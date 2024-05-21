@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:19:59 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/21 15:39:02 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/21 19:53:40 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ void	*routine(void *ptr)
 	philo = ptr;
 	param = philo->param;
 	if (philo->philo_num % 2 == 1)
-		usleep(130);
+		usleep(150);
 	gettimeofday(&philo->last_meal, NULL);
 	routine_loop(philo, param);
 	if (philo->fork_use)
 	{
-		pthread_mutex_unlock(&param->forks[philo->right_fork].fork);
-		pthread_mutex_unlock(&param->forks[philo->left_fork].fork);
+		pthread_mutex_unlock(&param->forks[philo->right_fork]->fork);
+		pthread_mutex_unlock(&param->forks[philo->left_fork]->fork);
 	}
 	if (param->philos[philo->philo_num + 1])
 		pthread_join(param->philos[philo->philo_num + 1]->philo, NULL);

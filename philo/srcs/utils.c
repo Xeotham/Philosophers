@@ -6,7 +6,7 @@
 /*   By: mhaouas <mhaouas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 18:14:53 by mhaouas           #+#    #+#             */
-/*   Updated: 2024/05/21 15:37:07 by mhaouas          ###   ########.fr       */
+/*   Updated: 2024/05/21 20:07:18 by mhaouas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ void	free_param(t_param *param)
 		return ;
 	if (param->forks)
 	{
-		while (i < param->philo_num)
+		while (param->forks[i])
 		{
-			pthread_mutex_destroy(&param->forks[i].check_use);
-			pthread_mutex_destroy(&param->forks[i++].fork);
+			pthread_mutex_destroy(&param->forks[i]->check_use);
+			pthread_mutex_destroy(&param->forks[i++]->fork);
 		}
 		free(param->forks);
 	}
